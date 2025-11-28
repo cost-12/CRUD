@@ -1,146 +1,136 @@
-# Restaurante (Pedidos)
-# Campos utilizados no CRUD:
-# • - Número do pedido
-# • - Cliente
-# • - Prato
-# • - Quantidade
-# • - Valor total
 import sqlite3
 
-### Função Menu
-while True:
-  print("\n===== SISTEMA CONN =====")
-  print("1 - Cadastrar cliente\n")
-  print("2 - Listar pedidos\n")
-  print("3 - Buscar pedido\n")
-  print("4 - Atualizar pedido\n")
-  print("5 - Remover pedido\n")
-  print("0 - Sair\n")
+# Função para criar o banco e tabela
+def database():
+    conn = sqlite3.connect('collab_notebooks/database/database.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS pedidos (
+            codigo INTEGER PRIMARY KEY AUTOINCREMENT,
+            cliente TEXT NOT NULL,
+            prato TEXT NOT NULL,
+            quantidade INTEGER NOT NULL,
+            valor_total REAL NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
-  options = input("Escolha uma opção: ")
+# Função para cadastrar pedido
+def creat_pedido():
+    print("\n=== CADASTRAR PEDIDO ===")
+    cliente = input("Digite o nome do cliente: ").strip()
+    prato = input("Digite o prato: ").strip()
+    quantidade = int(input("Digite a quantidade: ").strip())
+    valor_total = float(input("Digite o valor total: ").strip())
 
-  if options == "1":
-    creat_cliente()
-  elif options == "2":
-    list_pedidos()
-  elif options == "3":
-    search_pedido()
-  elif options == "4":
-    update_pedido()
-  elif options == "5":
-    delete_pedido()
-  elif options == "0":
-    print("Saindo...")
-    break
-  else:
-    print("Opção inválida! Tente novamente.")
+    conn = sqlite3.connect('collab_notebooks/database/database.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO pedidos (cliente, prato, quantidade, valor_total)
+        VALUES (?, ?, ?, ?)
+    ''', (cliente, prato, quantidade, valor_total))
+    conn.commit()
+    conn.close()
+    print("Pedido cadastrado com sucesso!!!")
 
-
-## Função criar usuário
-
-def creat_cliente():
-  print("\n=== CADASTRAR PEDIDO ===")
-  cardapio = 0
-  codigo = input("Digite o código do pedido: ").strip()
-  cliente = input("Digite o nome do cliente: ").strip()
-  prato = input("Digite o prato: ").strip()
-  quantidade = input("Digite a quantidade: ").strip()
-  valor_total = input("Digite o valor total: ").strip()
-
-  pedido = {
-      "codigo": codigo,
-      "cliente": cliente,
-      "prato": prato,
-      "quantidade": quantidade,
-      "valor_total": valor_total
-  }
-  cardapio.append(pedido)
-  print("✔ Pedido cadastrado com sucesso!")
-
-## List pedidos
-
+# Função para listar pedidos
 def list_pedidos():
-    item = []
-    item.append(creat_cliente(), list_pedidos(),
-    search_pedido(), update_pedido(),delete_pedido())
-    return item
+    conn = sqlite3.connect('collab_notebooks/database/database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM pedidos")
+    pedidos = cursor.fetchall()
 
+    for linhas in pedidos:
+      print(linhas)
 
-## Buscar pedidos
+    conn.close()
+
+# Função para buscar pedido
 def search_pedido():
     print("\n=== BUSCAR PEDIDO ===")
-    numero = input("Número do pedido: ")
-    if numero == "":
-        print("Erro: digite um número!")
-        return
-    numero = int(numero)
-    for p in pedido:
-        if p["numero"] == numero:
-            print("\nPedido encontrado!")
-            print("Número:", p["numero"])
-            print("Cliente:", p["cliente"])
-            print("Prato:", p["prato"])
-            print("Quantidade:", p["quantidade"])
-            print("Valor total: R$", p["valor_total"])
-            return
-    print("Pedido não encontrado!")
-search_pedido()
+    codigo = input("Digite o código do pedido: ").strip()
 
-## Update pedidos
+    conn = sqlite3.connect('collab_notebooks/database/database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM pedidos WHERE codigo = ?", (codigo,))
+    pedido = cursor.fetchone()
+    conn.close()
+
+    if pedido:
+        print(f"\nPedido encontrado!\nCódigo: {pedido[0]} | Cliente: {pedido[1]} | Prato: {pedido[2]} | Quantidade: {pedido[3]} | Valor total: R$ {pedido[4]:.2f}")
+    else:
+        print("Pedido não encontrado.")
+
+# Função para atualizar pedido
 def update_pedido():
-  print("\n=== ATUALIZAR PEDIDO ===")
-  cardapio = 0
-  codigo = input("Digite o código do pedido para atualizar:" )
-  for pedido in cardapio:
-    if pedido['codigo'] == codigo:
-      print("1. Prato")
-      print("2. Quantidade")
-      print("3. Valor total")
-      opcao = input("Escolha uma opção para atualizar: ")
-      if opcao == "1":
+    print("\n=== ATUALIZAR PEDIDO ===")
+    codigo = input("Digite o código do pedido para atualizar: ").strip()
+
+    print("1. Prato\n2. Quantidade\n3. Valor total")
+    opcao = input("Escolha uma opção para atualizar: ")
+
+    conn = sqlite3.connect('collab_notebooks/database/database.db')
+    cursor = conn.cursor()
+
+    if opcao == "1":
         novo_prato = input("Digite o novo prato: ").strip()
-        pedido['prato'] = novo_prato
-        print("✔ Prato atualizado com sucesso!")
-        return
-      elif opcao == "2":
-        nova_quantidade = input("Digite a nova quantidade: ").strip()
-        pedido['quantidade'] = nova_quantidade
-        print("✔ Quantidade atualizada com sucesso!")
-        return
-      elif opcao == "3":
-        novo_valor_total = input("Digite o novo valor total: ").strip()
-        pedido['valor_total'] = novo_valor_total
-        print("✔ Valor total atualizado com sucesso!")
+        cursor.execute("UPDATE pedidos SET prato = ? WHERE codigo = ?", (novo_prato, codigo))
+    elif opcao == "2":
+        nova_quantidade = int(input("Digite a nova quantidade: ").strip())
+        cursor.execute("UPDATE pedidos SET quantidade = ? WHERE codigo = ?", (nova_quantidade, codigo))
+    elif opcao == "3":
+        novo_valor = float(input("Digite o novo valor total: ").strip())
+        cursor.execute("UPDATE pedidos SET valor_total = ? WHERE codigo = ?", (novo_valor, codigo))
+    else:
+        print("Opção inválida!")
+        conn.close()
         return
 
-## Delete pedido
+    conn.commit()
+    conn.close()
+    print("Pedido atualizado com sucesso!!!")
 
+# Função para remover pedido
 def delete_pedido():
     print("\n=== REMOVER PEDIDO ===")
     codigo = input("Digite o código do pedido para remover: ").strip()
-    cardapio = 0
-    for pedido in cardapio:
-        if pedido['codigo'] == codigo:
-            cardapio.remove(pedido)
-            print("Pedido removido com sucesso!")
-            return
-    print("Código não encontrado.")
 
-## Banco de dados
+    conn = sqlite3.connect('collab_notebooks/database/database.db')
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM pedidos WHERE codigo = ?", (codigo,))
+    conn.commit()
+    conn.close()
+    print("Pedido removido com sucesso!!!")
 
-def database():
-  conn = sqlite3.connect('crud/collab_notebooks/database/database.db')
-  cursor = conn.cursor()
-  cursor.execute('''
-      CREATE TABLE IF NOT EXISTS pedidos (
-          codigo INTEGER PRIMARY KEY AUTOINCREMENT,
-          cliente TEXT,
-          prato TEXT,
-          quantidade INTEGER,
-          valor_total REAL
-      )
-  ''')
-  conn.commit()
-  conn.close()
+# Função Menu
+def menu():
+    database()  # garante que a tabela existe
+    while True:
+        print("\n===== SISTEMA CONN =====")
+        print("1 - Cadastrar pedido")
+        print("2 - Listar pedidos")
+        print("3 - Buscar pedido")
+        print("4 - Atualizar pedido")
+        print("5 - Remover pedido")
+        print("0 - Sair")
 
-database()
+        options = input("Escolha uma opção: ")
+
+        if options == "1":
+            creat_pedido()
+        elif options == "2":
+            list_pedidos()
+        elif options == "3":
+            search_pedido()
+        elif options == "4":
+            update_pedido()
+        elif options == "5":
+            delete_pedido()
+        elif options == "0":
+            print("Saindo...")
+            break
+        else:
+            print("Opção inválida! Tente novamente.")
+
+menu()
