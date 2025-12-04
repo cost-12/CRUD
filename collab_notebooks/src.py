@@ -40,36 +40,93 @@ def menu():
         else:
             print("Opção inválida!")
 
+# ## Verificador de Caracteres Especiais
+# char_especial = []
+
+# def check_special_char(char):
+#     if not char.isalnum() and not char.isspace():
+#         char_especial.append(char)
+    
+#def retricted():
+
 
 ## Função Criar Pedido
 def creat_pedido():
     global codigo_id
+    #global char_especial
+    #global pedidos
     print("\n=== CADASTRAR PEDIDO ===")
-    cliente = input("Cliente: ")
-    if cliente.isdigit():
-        print("Nome Inválido!")
+    cliente = []
+    cliente.append(input("Cliente: "))
+    #if cliente.isdigit():
+    #    print("Nome Inválido!")
+    #    return creat_pedido()
+    
+    if cliente == [""]:
+        print("Campo vazio...")
         return creat_pedido()
-    elif not cliente:
-        print("Campo Vazio...")
+    
+    # Tentativa de restrigir caracteres especiais
+    #for char in cliente:
+    # for s in cliente:
+    # #     print(char)
+    # #     print(cliente)
+    #     if not s.isalnum() and not s.isspace():
+    #         #char_especial.append(char)
+    #         print("Caracteres especias não permitido!")
+    #         return creat_pedido()
+    
+
+    for p in cliente:
+        if p.isspace():
+            print("Campo vazio...")
+            return creat_pedido()
+
+
+    for char in cliente:
+        if char.isdigit():
+            print("Tipo de dado inválido!")
+            return creat_pedido()
+
+    for i in cliente:
+        Full_Name = i.split()
+        #Full_Name.append 
+        len(Full_Name)
+
+    if len(Full_Name) == 1:
+        ###Testando Saídas####
+        #print(i)
+        #print(cliente)
+        #print(Full_Name)
+        #print(len(Full_Name))
+        print("Insira o nome completo!")
         return creat_pedido()
-    # for i in cliente:
-    #     Full_Name = i.split() 
-    #     len(Full_Name)
-    # if len(Full_Name) == 1:
-    #     print("Insira o nome completo!")
-    #     return creat_pedido()
+    
+
     prato = input("Prato: ")
     if prato.isdigit():
         print("Prato inválido!")
         return creat_pedido()
     elif not prato:
-        print("Informação inválido!")
+        print("Campo Vazio...!")
         return creat_pedido()
     
-    quantidade = int(input("Quantidade: "))
-    if quantidade == 0:
-        print("Campo vazio!:")
+    quantidade = input("Quantidade: ")
+    try:
+        quantidade = int(quantidade)
+    except ValueError:
+        print("Quantidade inválida!")
         return creat_pedido()
+
+    if quantidade <= 0:
+        print("Quantidade Inválida!")
+        return creat_pedido()
+    
+    elif not quantidade:
+        print("Campo vazio...")
+        return 
+
+
     valor = float(input("Valor total: "))
 
     pedidos.append({
@@ -130,7 +187,7 @@ def remove_pedido():
     print("\n=== REMOVER PEDIDO ===")
     print(pedidos)
     cod = int(input("Digite o código: "))
-    #pedidos[:] = [p for p in pedidos if p["codigo_id"] != cod]
+
     if pedidos == []:
         print("Nenhum pedido cadastrado.")
         return menu()
