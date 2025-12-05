@@ -1,5 +1,6 @@
 pedidos = []
 codigo_id = 1
+total = 0
 
 def menu():
     global codigo_id
@@ -9,7 +10,8 @@ def menu():
         print("2 - Listar pedidos")
         print("3 - Buscar pedido")
         print("4 - Atualizar pedido")
-        print("5 - Remover pedido")
+        print("5 - Verificar rendimento")
+        print("6 - Remover pedido")
         print("0 - Sair")
 
         opcao = input("Escolha uma opção: ")
@@ -32,6 +34,9 @@ def menu():
             update_pedido()
 
         elif opcao == "5":
+            profit_restaurante()
+
+        elif opcao == "6":
             remove_pedido()
 
         elif opcao == "0":
@@ -53,6 +58,7 @@ def menu():
 ## Função Criar Pedido
 def creat_pedido():
     global codigo_id
+    global total
     #global char_especial
     global pedidos
     print("\n=== CADASTRAR PEDIDO ===")
@@ -138,6 +144,9 @@ def creat_pedido():
     except TypeError:
         print("Valor real não específicado...")
         return creat_pedido()
+    
+
+    total = total + valor
     #valor = float(valor)
 
     pedidos.append({
@@ -191,6 +200,16 @@ def update_pedido():
         print("Pedido atualizado!")
     else:
         print("Pedido não encontrado.")
+
+# Verifica o o total arrecadado
+def profit_restaurante():
+    global pedidos
+    global total
+    print("\n=== Valor Total ===\n")
+
+    print(f"Lucro bruto: R$ {total}")
+
+
 
 # Função remover pedido
 def remove_pedido():
