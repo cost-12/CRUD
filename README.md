@@ -5,7 +5,7 @@ Bem-vindo ao **Sistema Codename DJLPT**, esse projeto busca facilitar a logísti
 ---
 
 ## Missão 
-Diminuir frustração constante no resgistro de pedidos gerando atrasos no mesmo.  
+Diminuir frustração constante no resgistro de pedidos que geram atrasos no mesmo.  
 
 ---
 
