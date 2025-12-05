@@ -31,6 +31,6 @@ Imagine o cliente **Ronaldo Fernandes** chegando a um Restaurante chamado CONN:
    - Quantidade: 1  
    - Valor Total: R$ 45,00  
 3. O pedido é salvo no banco de dados e aparece na lista de pedidos ativos.  
-4. Após o preparo, cliente recebe sua pizza e o atendente remove o pedido, é assim concluído.  
+4. Após o preparo, o cliente recebe sua pizza e o atendente remove o pedido, é assim concluído.  
 
 ---
