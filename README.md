@@ -18,7 +18,6 @@ O sistema do restaurante CONN permite:
 - **Atualizar pedidos**: Alterar informações de pratos ou quantidade.  
 - **Excluir pedidos**: Remover pedidos do banco de dados.  
 
-Banco de dados utilizado: `SQLite`  
 Tabela principal: `pedidos (cliente, prato, quantidade, valor_total)`
 
 ---
