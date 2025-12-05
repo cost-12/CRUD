@@ -144,6 +144,9 @@ def creat_pedido():
     except TypeError:
         print("Valor real não específicado...")
         return creat_pedido()
+    if valor > 1000:
+        print("Valor exorbitante!")
+        return creat_pedido()
     total = total + valor
     #valor = float(valor)
 
