@@ -76,7 +76,12 @@ def creat_pedido():
     #         print("Caracteres especias não permitido!")
     #         return creat_pedido()
     
-
+    for p in pedidos:
+        if cliente == p['cliente']:
+            print("Cliente já registrado!")
+            return creat_pedido()
+        
+        
     for p in cliente:
         if p.isspace():
             print("Campo vazio...")
