@@ -4,6 +4,7 @@ total = 0
 
 def menu():
     global codigo_id
+    global pedidos
     while True:
         print("\n===== SISTEMA CONN =====")
         print("1 - Cadastrar pedido")
@@ -23,12 +24,28 @@ def menu():
             list_pedidos()
 
         elif opcao == "3":
-            cod = int(input("Digite o código: "))
+            print("\n=== BUSCAR PEDIDO ===\n")
+            if not pedidos:
+                print("Nenhum pedido cadastrado.")
+                return menu()
+            for p in pedidos:
+                if pedidos != []:
+                    print(f"\n- Código: {p['codigo_id']}\n- Cliente: {p['cliente']} \n- Prato: {p['prato']}\n")
+
+            cod = input("Digite o código: ")
             pedido = buscar_pedido(cod)
-            if pedido:
+            
+            if pedido is not None:
                 print("Pedido encontrado:", pedido)
             else:
                 print("Pedido não encontrado.")
+            try:
+                cod = int(cod)
+            except ValueError:
+                return menu()
+            if cod == '':
+                print("Erro...")
+                return menu()
 
         elif opcao == "4":
             update_pedido()
@@ -207,7 +224,6 @@ def update_pedido():
 
 # Verifica o o total arrecadado
 def profit_restaurante():
-    global pedidos
     global total
     print("\n=== Valor Total ===\n")
 
@@ -219,7 +235,7 @@ def profit_restaurante():
 def remove_pedido():
     global pedidos
     print("\n=== REMOVER PEDIDO ===")
-    print(pedidos)
+    ##Teste de saída, print(pedidos)####
     try:
         entrada = input("Digite o código: ")
         cod = int(entrada)
@@ -232,6 +248,9 @@ def remove_pedido():
         return menu()
     
     elif cod > len(pedidos):
+        print("Código inválido!")
+        return remove_pedido()
+    elif cod <= 0:
         print("Código inválido!")
         return remove_pedido()
     

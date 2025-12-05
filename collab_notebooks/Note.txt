@@ -1,1 +1,6 @@
 - adicionar restrição a entrada Cliente. (Insira o nome completo)
+- Código não exibe a identificação de pedidos de um mesmo cliente
+- o código não lista os pedidos de forma organizada/polida
+- Resolver erro de digitação no código do pedido
+- adicionar um buscador de pedidos por cliente
+- 
