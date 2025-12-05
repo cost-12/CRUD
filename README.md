@@ -23,7 +23,7 @@ Tabela principal: `pedidos (cliente, prato, quantidade, valor_total)`
 ---
 
 ## Cenário de Uso
-Imagine o cliente **Ronaldo Fernandes** chegando em um Restaurante chamado CONN:
+Imagine o cliente **Ronaldo Fernandes** chegando a um Restaurante chamado CONN:
 1. Ele pede uma prato de filé com fritas.  
 2. O atendente registra no sistema:  
    - Cliente: Ronaldo Fernandes  
