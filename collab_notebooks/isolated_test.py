@@ -40,6 +40,8 @@
 #         print(f"'{char}' is a special character.")
 #     else:
 #         print(f"'{char}' is an alphanumeric character.")
-i = "kg"
-valor = input("peso (digite aqui): ", i)
-print(f"peso {valor} kg")
+
+###Tentativa de de exibir quantidade com kg###
+# i = "kg"
+# valor = input("peso (digite aqui): ", i)
+# print(f"peso {valor} kg")
