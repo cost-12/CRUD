@@ -144,8 +144,6 @@ def creat_pedido():
     except TypeError:
         print("Valor real não específicado...")
         return creat_pedido()
-    
-
     total = total + valor
     #valor = float(valor)
 
